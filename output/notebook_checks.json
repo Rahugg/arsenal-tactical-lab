@@ -1,0 +1,18 @@
+{
+  "notebook_checks": "passed",
+  "matches": 380,
+  "arsenal_matches": 38,
+  "opponent_pairs": 19,
+  "home_points": 47,
+  "away_points": 16,
+  "train_test_disjoint": true,
+  "arsenal_excluded_from_model": true,
+  "source_hashes_verified": true,
+  "boundary_tests": "passed",
+  "shared_export_equal": true,
+  "exposure_boundary_tests": "passed",
+  "delivery_unique_shot_attribution": true,
+  "accounting_reconciled": true,
+  "alternative_same_split": true,
+  "human_study_performed": false
+}

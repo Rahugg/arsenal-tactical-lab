@@ -1,0 +1,16 @@
+{
+  "clean_kernel": "passed",
+  "cells": 33,
+  "code_cells": 16,
+  "deterministic_export": true,
+  "five_native_chart_caches_match": true,
+  "main_hypotheses_unchanged": true,
+  "app_json_identical": true,
+  "notes": 14,
+  "visible_slides": 12,
+  "hidden_reserve_slides": 2,
+  "main_talk_seconds": 795,
+  "demo_seconds": 180,
+  "human_study_performed": false,
+  "publication_verified": false
+}

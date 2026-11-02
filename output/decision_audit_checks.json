@@ -1,0 +1,117 @@
+{
+  "kind": "Аудит агента",
+  "passed": true,
+  "human_participants": 0,
+  "human_study_performed": false,
+  "human_time_saving_measured": false,
+  "method": "Автоматизированные задачи в браузере и проверка доступности соответствующих CSV; ответы сверены с аналитическим экспортом.",
+  "checks": [
+    {
+      "task_id": "points",
+      "passed": true,
+      "observed": {
+        "home": 47,
+        "away": 16
+      },
+      "expected": {
+        "home": 47,
+        "away": 16
+      }
+    },
+    {
+      "task_id": "pair",
+      "passed": true,
+      "observed": {
+        "opponent": "Manchester United",
+        "difference": -4.231084246843799
+      },
+      "expected": {
+        "opponent": "Manchester United",
+        "difference": -4.231084246843799
+      }
+    },
+    {
+      "task_id": "accounting",
+      "passed": true,
+      "observed": {
+        "nonpenalty": 41,
+        "actual": 45
+      },
+      "expected": {
+        "nonpenalty": 41,
+        "actual": 45
+      }
+    },
+    {
+      "task_id": "holm",
+      "passed": true,
+      "observed": 0.158,
+      "expected": 0.158
+    },
+    {
+      "task_id": "exposure",
+      "passed": true,
+      "observed": {
+        "context": "level",
+        "metric": "balance_per90",
+        "n": 19,
+        "difference": -1.7620755763354357,
+        "low": -3.078878285349958,
+        "high": -0.4060200077730975
+      },
+      "expected": {
+        "context": "level",
+        "metric": "balance_per90",
+        "n": 19,
+        "difference": -1.7620755763354357,
+        "low": -3.078878285349958,
+        "high": -0.4060200077730975
+      }
+    },
+    {
+      "task_id": "counterexample",
+      "passed": true,
+      "observed": {
+        "match_id": 2499719,
+        "event_id": 177959338
+      },
+      "expected": {
+        "match_id": 2499719,
+        "event_id": 177959338
+      }
+    }
+  ],
+  "table_availability": [
+    {
+      "task_id": "points",
+      "file": "arsenal_matches.csv",
+      "readable": true
+    },
+    {
+      "task_id": "pair",
+      "file": "arsenal_matches.csv",
+      "readable": true
+    },
+    {
+      "task_id": "holm",
+      "file": "hypotheses.csv",
+      "readable": true
+    },
+    {
+      "task_id": "exposure",
+      "file": "state_exposure_effects.csv",
+      "readable": true
+    },
+    {
+      "task_id": "accounting",
+      "file": "goal_gap_accounting.csv",
+      "readable": true
+    },
+    {
+      "task_id": "counterexample",
+      "file": "delivery_events.csv",
+      "readable": true
+    }
+  ],
+  "limitation": "Не пользовательский эксперимент. Точность самостоятельного аналитического расчёта проверяется отдельно."
+}

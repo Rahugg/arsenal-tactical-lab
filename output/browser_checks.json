@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "browser": "Chromium",
+  "external_requests": 0,
+  "javascript_errors": [],
+  "checks": [
+    "47/16",
+    "19 opponents",
+    "context filters",
+    "shot episodes",
+    "playback",
+    "empty result",
+    "10/15/20 windows",
+    "recommendations",
+    "390px layout"
+  ],
+  "network_policy": "all non-loopback requests blocked"
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Тактическая лаборатория Arsenal 2017/18. Проверка гипотез и реальные игровые события.">
+  <title>Arsenal 2017/18: различия дома и на выезде</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="#overview" aria-label="Arsenal Lab — обзор"><span class="brand-mark">A</span><span>ARSENAL <b>LAB</b></span></a>
+    <span class="edition">ТАКТИЧЕСКАЯ ЛАБОРАТОРИЯ <span>2017 / 18</span></span>
+    <span class="local-status">Локальные данные</span>
+  </header>
+  <div id="loading" role="status">Загружаем результаты исследования…</div>
+  <div id="error" class="error" role="alert" hidden></div>
+  <main id="application" hidden>
+    <section class="hero">
+      <div><p class="eyebrow">АРСЕНАЛ · ПРЕМЬЕР-ЛИГА · ИССЛЕДОВАНИЕ</p>
+        <h1>Arsenal 2017/18:<br>различия дома<br>и на выезде</h1>
+        <p class="lede">Одинаковые соперники. Проверяемые гипотезы.<br>От сезонного разрыва — к конкретным игровым событиям.</p>
+      </div>
+      <div class="hero-score" aria-label="Сравнение набранных очков">
+        <div><span>ДОМА</span><strong id="home-points"></strong><small>очков / 19 матчей</small><i class="score-line home"></i></div>
+        <div><span>НА ВЫЕЗДЕ</span><strong id="away-points"></strong><small>очков / 19 матчей</small><i class="score-line away"></i></div>
+      </div>
+    </section>
+    <nav class="tabs" aria-label="Разделы исследования">
+      <button class="active" data-tab="overview" aria-selected="true">01 <span>Обзор</span></button>
+      <button data-tab="hypotheses" aria-selected="false">02 <span>Гипотезы</span></button>
+      <button data-tab="episodes" aria-selected="false">03 <span>Эпизоды</span></button>
+      <button data-tab="recommendations" aria-selected="false">04 <span>Рекомендации</span></button>
+    </nav>
+    <section id="overview" class="tab-panel">
+      <div class="section-heading"><div><p class="eyebrow">КАРТИНА СЕЗОНА</p><h2>Как устроен разрыв</h2></div><p>38 матчей Arsenal · 19 пар соперников<br>380 матчей АПЛ в исходных данных</p></div>
+      <div id="key-metrics" class="metrics"></div>
+      <div class="two-column">
+        <article class="figure-block"><h3>Созданные и допущенные моменты</h3><p class="caption">Непенальтийный xG за сезон, рассчитанный простой моделью</p><div id="balance-chart"></div></article>
+        <article class="figure-block"><h3>Что поддерживают данные</h3><p class="caption">Основные проверки с поправкой Holm</p><div id="verdict-summary"></div><button class="text-button" data-go="hypotheses">Открыть расчёты и интервалы →</button></article>
+      </div>
+      <article class="figure-block full-width"><h3>Полное разложение разрыва голов</h3><p class="caption">Дом минус выезд. Модельное бухгалтерское тождество, не причинные вклады.</p><div id="accounting-table" class="table-wrap"></div><p id="accounting-bridge" class="method-note"></p></article>
+      <article class="figure-block full-width">
+        <div class="section-heading"><div><h3>Одни и те же соперники</h3><p class="caption">Выберите строку, чтобы открыть события этого матча</p></div><button id="download-csv" class="secondary">Скачать таблицу CSV</button></div>
+        <div class="table-wrap"><table id="match-table"><thead><tr><th>Соперник</th><th>Очки дома / выезд</th><th>xG-баланс дома</th><th>xG-баланс выезд</th><th>Разница</th></tr></thead><tbody></tbody></table></div>
+      </article>
+      <p class="method-note">xG — оценка качества удара, а не официальный показатель провайдера. Доля передач используется как прокси активности с мячом. Корреляции не устанавливают причинность.</p>
+    </section>
+    <section id="hypotheses" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">ПРОВЕРКА ОБЪЯСНЕНИЙ</p><h2>Три гипотезы, заданные заранее</h2></div></div>
+      <p class="method-note">Разница — выезд минус дом. Основные H1–H3 и Holm p относятся к полным матчам. Дополнительные разрезы ниже разведочные и не заменяют исходные проверки.</p>
+      <div id="hypothesis-cards"></div>
+      <article class="figure-block full-width"><div class="section-heading"><div><p class="eyebrow">ОПИСАТЕЛЬНЫЙ РАЗРЕЗ</p><h3>Сколько времени команда провела в состоянии</h3></div><div class="inline-filters"><label>Состояние<select id="hypothesis-context"><option value="all">Все состояния</option><option value="eleven">Только 11 × 11</option><option value="level">Равный счёт и 11 × 11</option></select></label><label>Показатель<select id="context-unit"><option value="per90">На 90 минут состояния</option><option value="total">Суммы за выбранные минуты</option></select></label></div></div><div id="exposure-table" class="table-wrap"></div><div id="exposure-effect" class="method-note"></div><p class="caption">Минуты матчевых часов включают остановки, без перерыва. Конец тайма приближённый. Нормировка не устанавливает причинность; исходные Holm p здесь не применяются.</p></article>
+      <article class="figure-block full-width"><p class="eyebrow">РАЗВЕДОЧНЫЙ МЕХАНИЗМ</p><h3>Что происходит после доставки в штрафную</h3><p class="caption">Все зарегистрированные попытки, включая неудачные и без последующего удара. Знаменатель возможностей — передачи из атакующей трети вне штрафной.</p><div id="delivery-table" class="table-wrap"></div><div id="delivery-effects" class="table-wrap"></div><div class="inline-actions"><button class="secondary" data-delivery-route="other">Эпизоды без навеса →</button><button class="secondary" data-delivery-route="cross">Эпизоды навесов →</button></div><p class="method-note">Конец неудачной передачи не устанавливает намерение. Удар относится к последней доставке за 15 секунд, до остановки или контроля соперника. Интервалы не скорректированы на множество разведочных сравнений; ситуации и давление могут различаться.</p></article>
+      <div class="two-column">
+        <article class="figure-block"><h3>Качество модели на отложенных матчах</h3><div id="model-quality"></div><p class="caption">Brier и log loss: меньше — лучше. Arsenal полностью исключён из обучения.</p></article>
+        <article class="figure-block"><h3>Как меняется H3 при другом окне</h3><div id="sensitivity-chart"></div><p class="caption">Наблюдаемые последовательности после неудачной передачи. Основное окно — 15 секунд.</p></article>
+      </div>
+      <article class="figure-block full-width"><h3>Устойчивость к спецификации xG</h3><div id="robustness-table" class="table-wrap"></div><p id="robustness-effects" class="method-note"></p><p class="caption">Одинаковые матчи обучения и проверки. Дополнительная модель только с расстоянием и углом не заменяет основную.</p></article>
+      <article class="figure-block"><h3>Результаты против разных соперников и по ходу сезона</h3><div id="group-table" class="table-wrap"></div></article>
+      <details class="methods"><summary>Метод, определения и ограничения</summary><div id="method-details"></div></details>
+    </section>
+    <section id="episodes" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">СВИДЕТЕЛЬСТВА И КОНТРПРИМЕРЫ</p><h2>Посмотреть, что происходило</h2></div><p>Исходные ID сохранены.<br>Каждый эпизод можно проверить.</p></div>
+      <div class="filters">
+        <label>Тип эпизода<select id="episode-kind"><option value="turnover">После неудачной передачи</option><option value="arsenal_shot">Перед ударом Arsenal</option><option value="delivery">Доставка в штрафную</option></select></label>
+        <label id="route-filter" hidden>Маршрут<select id="episode-route"><option value="all">Все маршруты</option><option value="other">Без навеса</option><option value="cross">Навесы</option></select></label>
+        <label>Матч<select id="episode-match"><option value="all">Все матчи</option></select></label>
+        <label>Окно<select id="episode-horizon"><option>10</option><option selected>15</option><option>20</option></select></label>
+        <label>Продолжение<select id="episode-hit"><option value="all">Все эпизоды</option><option value="yes">С ударом соперника</option><option value="no">Без удара соперника</option></select></label>
+        <label>Состояние<select id="episode-context"><option value="all">Все состояния</option><option value="eleven">11 × 11</option><option value="level">Равный счёт и 11 × 11</option></select></label>
+      </div>
+      <div class="episode-grid">
+        <aside><p id="episode-count" class="caption" aria-live="polite"></p><div id="episode-list"></div><button id="more-episodes" class="secondary">Ещё эпизоды</button></aside>
+        <article class="episode-view">
+          <div class="section-heading"><div><h3 id="episode-title">Выберите эпизод</h3><p id="episode-meta" class="caption"></p></div><span id="episode-result" class="label"></span></div>
+          <div id="pitch-container"></div>
+          <div class="playback"><button id="play" class="primary">Воспроизвести</button><input id="frame" type="range" min="0" max="0" value="0" aria-label="Шаг эпизода"><span id="frame-label"></span></div>
+          <div id="action-details" class="action-details" aria-live="polite"></div>
+          <p class="method-note">Это анимация зарегистрированных действий с мячом. Линии между событиями условны; позиции остальных игроков и непрерывные траектории отсутствуют. Arsenal показан красным.</p>
+        </article>
+      </div>
+    </section>
+    <section id="recommendations" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">РЕШЕНИЕ ДЛЯ ТРЕНЕРСКОГО ШТАБА</p><h2>Что стоит проверить на практике</h2></div><p>Данные → объяснение → упражнение<br>Степень поддержки видна у каждого предложения</p></div>
+      <div id="recommendation-list"></div>
+      <article class="figure-block full-width"><h3>Сравнение альтернатив</h3><div id="decision-matrix" class="table-wrap wrap-table"></div><p class="caption">Ресурсы — плановые допущения. Дополнительные победы и голы от вмешательства не оценивались.</p></article>
+      <article class="figure-block full-width"><h3>Аудит агента: шесть задач поиска доказательств</h3><div id="audit-tasks" class="table-wrap wrap-table"></div><p class="method-note">Пользовательский эксперимент не проводился. Это проверка функций и фактических ответов, без заявлений об удобстве для людей или экономии времени.</p></article>
+      <article class="limits"><h3>Границы выводов</h3><ol id="limitations"></ol></article>
+    </section>
+    <footer><span>AAI-2501M · Faizolla Amanbek · Bolatov Madiyar<br>Akhmedov Adilet · Syzdykov Sanzhar</span><span>Данные Wyscout · CC BY 4.0 · <a href="https://doi.org/10.1038/s41597-019-0247-7" target="_blank" rel="noopener">источник</a><br><a href="https://github.com/Rahugg/arsenal-tactical-lab" target="_blank" rel="noopener">GitHub проекта</a></span></footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

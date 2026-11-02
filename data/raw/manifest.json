@@ -1,0 +1,32 @@
+{
+  "repository": "https://github.com/koenvo/wyscout-soccer-match-event-dataset",
+  "revision": "ebc4c54c1093c420a81ce442c69e4186fab33bb4",
+  "retrieved_at_utc": "2026-11-02T18:25:10.046727+00:00",
+  "license": "CC BY 4.0",
+  "files": [
+    {
+      "file": "events.zip",
+      "url": "https://raw.githubusercontent.com/koenvo/wyscout-soccer-match-event-dataset/ebc4c54c1093c420a81ce442c69e4186fab33bb4/raw_data/events.zip",
+      "bytes": 77323413,
+      "sha256": "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45"
+    },
+    {
+      "file": "matches.zip",
+      "url": "https://raw.githubusercontent.com/koenvo/wyscout-soccer-match-event-dataset/ebc4c54c1093c420a81ce442c69e4186fab33bb4/raw_data/matches.zip",
+      "bytes": 645097,
+      "sha256": "c8f92bb7533e5c127e043cee764c991b5c25b4f5e70a65be931baae0b1765ce9"
+    },
+    {
+      "file": "players.json",
+      "url": "https://raw.githubusercontent.com/koenvo/wyscout-soccer-match-event-dataset/ebc4c54c1093c420a81ce442c69e4186fab33bb4/raw_data/players.json",
+      "bytes": 1737347,
+      "sha256": "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e"
+    },
+    {
+      "file": "teams.json",
+      "url": "https://raw.githubusercontent.com/koenvo/wyscout-soccer-match-event-dataset/ebc4c54c1093c420a81ce442c69e4186fab33bb4/raw_data/teams.json",
+      "bytes": 27404,
+      "sha256": "9f7a4a3b3d92c0be33f40613ad6e6eb4316c3b9771ec74c61a22c9b8ece23a4d"
+    }
+  ]
+}
