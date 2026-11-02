@@ -2,13 +2,20 @@
   "passed": true,
   "source": "public GitHub clone",
   "repository": "https://github.com/Rahugg/arsenal-tactical-lab",
-  "tested_commit": "c6002b08a8e7921fd88cc9d7560c9da7e8c07a0d",
+  "tested_commit": "274dbc4343a782952b513decd91fe56c8e5f77ae",
   "raw_files_initially_absent": true,
   "downloaded_and_verified_files": 4,
   "tracked_checksums_before_run": "passed",
   "clean_kernel": "passed",
-  "cells": 33,
+  "cells": 35,
   "export_byte_identical": true,
-  "seconds": 18.2,
-  "environment": "Existing pinned Python environment reused; fresh code and source downloads, not a newly installed environment"
+  "independent_audit_byte_identical": true,
+  "seconds": 22.49,
+  "environment": "Existing pinned Python environment reused; fresh code and source downloads, not a newly installed environment",
+  "initial_publication_test": {
+    "tested_commit": "c6002b08a8e7921fd88cc9d7560c9da7e8c07a0d",
+    "cells": 33,
+    "seconds": 18.2,
+    "passed": true
+  }
 }
