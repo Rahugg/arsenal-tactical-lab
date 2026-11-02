@@ -1,7 +1,7 @@
 {
   "clean_kernel": "passed",
-  "cells": 33,
-  "code_cells": 16,
+  "cells": 35,
+  "code_cells": 17,
   "deterministic_export": true,
   "five_native_chart_caches_match": true,
   "main_hypotheses_unchanged": true,
@@ -12,5 +12,10 @@
   "main_talk_seconds": 795,
   "demo_seconds": 180,
   "human_study_performed": false,
-  "publication_verified": false
+  "publication_verified": true,
+  "post_publication_audit_passed": true,
+  "independent_human_review": false,
+  "exact_permutation_combinations": 524288,
+  "reverse_checked_deliveries": 952,
+  "final_pdf_visual_inspection": "14 slides; source and LibreOffice renders inspected; no clipping observed"
 }

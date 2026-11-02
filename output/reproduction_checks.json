@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "source": "public GitHub clone",
+  "repository": "https://github.com/Rahugg/arsenal-tactical-lab",
+  "tested_commit": "c6002b08a8e7921fd88cc9d7560c9da7e8c07a0d",
+  "raw_files_initially_absent": true,
+  "downloaded_and_verified_files": 4,
+  "tracked_checksums_before_run": "passed",
+  "clean_kernel": "passed",
+  "cells": 33,
+  "export_byte_identical": true,
+  "seconds": 18.2,
+  "environment": "Existing pinned Python environment reused; fresh code and source downloads, not a newly installed environment"
+}

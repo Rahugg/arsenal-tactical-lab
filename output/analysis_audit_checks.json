@@ -1,0 +1,81 @@
+{
+  "passed": true,
+  "kind": "Самопроверка автора другим алгоритмом после публикации",
+  "independent_human_review": false,
+  "league_matches": 380,
+  "events": 643150,
+  "points": {
+    "home": 47,
+    "away": 16
+  },
+  "ordinary_score_anomaly_matches": [
+    2499781
+  ],
+  "geometry": {
+    "distance_max_error": 1.4210854715202004e-14,
+    "angle_max_error": 6.175615574477433e-15
+  },
+  "model": {
+    "train_matches": 272,
+    "test_matches": 69,
+    "chronological_disjoint": true,
+    "manual_brier": 0.07933655278175415,
+    "manual_log_loss": 0.27815733755085537,
+    "max_xg_refit_error": 7.771561172376096e-16
+  },
+  "exact_permutation": [
+    {
+      "id": "H1",
+      "monte_carlo_p": 0.0239,
+      "exact_p": 0.023681640625,
+      "exact_holm": 0.071044921875
+    },
+    {
+      "id": "H2",
+      "monte_carlo_p": 0.0433,
+      "exact_p": 0.045322418212890625,
+      "exact_holm": 0.09064483642578125
+    },
+    {
+      "id": "H3",
+      "monte_carlo_p": 0.158,
+      "exact_p": 0.1587371826171875,
+      "exact_holm": 0.1587371826171875
+    }
+  ],
+  "source_exposure_max_error_minutes": 1.4210854715202004e-14,
+  "reverse_delivery_attribution": {
+    "matches": 38,
+    "deliveries": 952,
+    "all_shot_assignments_match": true
+  },
+  "delivery_horizon_sensitivity": [
+    {
+      "seconds": 10,
+      "difference": -12.211197456968739,
+      "low": -18.037725471287025,
+      "high": -6.460459589487195,
+      "pairs": 19
+    },
+    {
+      "seconds": 15,
+      "difference": -11.960570890552697,
+      "low": -17.76027579525828,
+      "high": -6.222806425855239,
+      "pairs": 19
+    },
+    {
+      "seconds": 20,
+      "difference": -11.960570890552697,
+      "low": -17.76027579525828,
+      "high": -6.222806425855239,
+      "pairs": 19
+    }
+  ],
+  "accounting_reconciled": true,
+  "limits": [
+    "Самопроверка тем же агентом, не независимая человеческая экспертиза.",
+    "Проверена реализация операционных определений; футбольная семантика без видео не удостоверена.",
+    "Трекинг, причинный эффект тренировки и польза интерфейса для людей не измерены."
+  ]
+}
