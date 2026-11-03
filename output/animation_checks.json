@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "date": "2026-11-03",
+  "original_shots_inspected": 8451,
+  "raw_shot_endpoints": {
+    "0,0": 4706,
+    "100,100": 3745
+  },
+  "regression_reproduced_before_fix": true,
+  "unit_tests_passed": 10,
+  "browser_cases": [
+    "Welbeck goal 177960130: no arrow to 0,0; schematic right goal",
+    "Vardy after loss 177959768: schematic left goal",
+    "Non-goal shot: origin ring only",
+    "Ozil delivery 216905500: goalkeeper tag does not create another goal",
+    "390px goal view: no horizontal overflow"
+  ],
+  "statistical_exports_changed": false,
+  "goal_direction_is_schematic": true,
+  "shot_endpoint_is_measured": false,
+  "visual_inspection": "output/app-goal.png inspected",
+  "limitations": "No tracking or measured ball trajectory. Goal centre is a labelled diagram, not an inferred impact location."
+}

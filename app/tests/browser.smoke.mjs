@@ -79,7 +79,53 @@ try{
   const max=Number(await page.locator('#frame').getAttribute('max'));
   assert.ok(Number(await page.locator('#frame').inputValue())>0||max===0);
   await page.locator('#play').click();
+  // Regression: Welbeck's goal must not use the raw (0,0) shot placeholder.
+  await page.selectOption('#episode-match','2499719');
+  await page.selectOption('#episode-context','all');
+  await page.locator('.episode-item').filter({hasText:'177960130'}).click();
+  await page.locator('#frame').evaluate(input=>{
+    input.value=input.max;input.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  assert.equal(await page.locator('#pitch-container line[x1="656"][y1="239"][x2="12"][y2="12"]').count(),0,
+    'Welbeck goal incorrectly points to raw (0,0) placeholder');
+  assert.equal(await page.locator('#pitch-container .goal-direction').last().getAttribute('x2'),'712');
+  assert.match(await page.locator('#shot-explanation').textContent(),/условное/);
+  assert.match(await page.locator('#pitch-container .goal-caption').textContent(),/ГОЛ ARSENAL/);
+  await page.waitForTimeout(700);
+  await page.setViewportSize({width:1440,height:1800});
+  await page.locator('.episode-view').screenshot({path:path.join(ROOT,'output/app-goal.png')});
+  await page.setViewportSize({width:1440,height:1100});
   await page.screenshot({path:path.join(ROOT,'output/app-episodes.png'),fullPage:true});
+  await page.selectOption('#episode-hit','no');
+  await page.locator('.episode-item').first().click();
+  await page.locator('#frame').evaluate(input=>{
+    input.value=input.max;input.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  assert.equal(await page.locator('#pitch-container .goal-direction').count(),0);
+  assert.equal(await page.locator('#pitch-container .shot-origin').count()>0,true);
+  assert.match(await page.locator('#shot-explanation').textContent(),/точка удара/);
+  await page.selectOption('#episode-kind','turnover');
+  await page.selectOption('#episode-hit','yes');
+  await page.selectOption('#episode-horizon','15');
+  await page.locator('.episode-item').filter({hasText:'177959768'}).click();
+  await page.locator('#frame').evaluate(input=>{
+    input.value=input.max;input.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  assert.equal(await page.locator('#pitch-container .goal-direction').last().getAttribute('x2'),'12');
+  assert.match(await page.locator('#pitch-container .goal-caption').textContent(),/ГОЛ СОПЕРНИКА/);
+  await page.selectOption('#episode-kind','delivery');
+  await page.selectOption('#episode-route','other');
+  await page.selectOption('#episode-match','2499899');
+  await page.locator('.episode-item').filter({hasText:'216905500'}).click();
+  await page.locator('#frame').evaluate(input=>{
+    input.value=input.max;input.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  assert.equal(await page.locator('#pitch-container .goal-direction').count(),1);
+  assert.match(await page.locator('#pitch-container .goal-caption').textContent(),/ГОЛ ARSENAL/);
+  await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
+  await page.setViewportSize({width:1440,height:1100});
+  await page.selectOption('#episode-kind','arsenal_shot');
   const empty=results.matches.find(m=>!results.episodes.some(e=>e.kind==='arsenal_shot'&&e.match_id===m.match_id&&e.hit&&e.eleven_v_eleven&&e.score_diff===0));
   assert.ok(empty);
   await page.selectOption('#episode-match',String(empty.match_id));
@@ -107,7 +153,9 @@ try{
   assert.deepEqual(external,[]);
   const report={passed:true,browser:'Chromium',external_requests:external.length,
     javascript_errors:errors,checks:['47/16','19 opponents','context filters','shot episodes',
-      'playback','empty result','10/15/20 windows','recommendations','390px layout'],
+      'playback','shot placeholders ignored','Welbeck goal right','Vardy goal left',
+      'non-goal shot origin only','delivery keeper duplicate not a second goal',
+      'empty result','10/15/20 windows','recommendations','390px layout','390px goal layout'],
     network_policy:'all non-loopback requests blocked'};
   await fs.writeFile(path.join(ROOT,'output/browser_checks.json'),JSON.stringify(report,null,2));
   const tableAvailability=[];

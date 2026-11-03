@@ -9,10 +9,16 @@
     "context filters",
     "shot episodes",
     "playback",
+    "shot placeholders ignored",
+    "Welbeck goal right",
+    "Vardy goal left",
+    "non-goal shot origin only",
+    "delivery keeper duplicate not a second goal",
     "empty result",
     "10/15/20 windows",
     "recommendations",
-    "390px layout"
+    "390px layout",
+    "390px goal layout"
   ],
   "network_policy": "all non-loopback requests blocked"
 }

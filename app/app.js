@@ -1,4 +1,4 @@
-import {filterEpisodes,riskSummary,number as fmt,clock} from './lab-utils.js';
+import {filterEpisodes,riskSummary,number as fmt,clock,actionGeometry} from './lab-utils.js';
 const $=id=>document.getElementById(id);
 let data,selectedEpisode=null,filteredEpisodes=[],listLimit=60,timer=null;
 const INK='#17212b',RED='#c52235',GRAY='#98a3ac';
@@ -146,7 +146,7 @@ function selectEpisode(e) {
   if(timer){clearInterval(timer);timer=null;$('play').textContent='Воспроизвести';}
   selectedEpisode=e;
   document.querySelectorAll('.episode-item').forEach(b=>b.classList.toggle('active',filteredEpisodes[Number(b.dataset.index)]===e));
-  if(!e){$('episode-title').textContent='Нет подходящих эпизодов';$('episode-meta').textContent='';$('episode-result').textContent='';$('pitch-container').innerHTML='<p class="empty">Выберите другие условия.</p>';$('action-details').textContent='';$('frame').max=0;$('frame-label').textContent='0 / 0';$('play').disabled=true;return;}
+  if(!e){$('episode-title').textContent='Нет подходящих эпизодов';$('episode-meta').textContent='';$('episode-result').textContent='';$('pitch-container').innerHTML='<p class="empty">Выберите другие условия.</p>';$('action-details').textContent='';$('shot-explanation').textContent='';$('frame').max=0;$('frame-label').textContent='0 / 0';$('play').disabled=true;return;}
   const m=matchFor(e.match_id);
   $('episode-title').textContent=m.label;
   $('episode-meta').textContent=clock(e.period,e.second)+' · match '+e.match_id+' · event '+e.event_id+' · разница счёта до события: '+(e.score_diff>0?'+':'')+e.score_diff;
@@ -160,16 +160,28 @@ function drawFrame() {
   if(!selectedEpisode?.actions.length)return;
   const i=Number($('frame').value),actions=selectedEpisode.actions;
   let s=pitchBase()+'<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="context-stroke"/></marker></defs>';
+  s+='<rect class="goal-mouth" x="4" y="214.56" width="8" height="48.88" fill="none" stroke="'+GRAY+'"/><rect class="goal-mouth" x="712" y="214.56" width="8" height="48.88" fill="none" stroke="'+GRAY+'"/>';
   const x=v=>12+v*7,y=v=>12+v*4.54;
   actions.slice(0,i+1).forEach((a,j)=>{
-    const pos=a.positions,color=a.arsenal?RED:INK,opacity=j===i?1:.18;
-    if(pos.length>1)s+='<line x1="'+x(pos[0].x)+'" y1="'+y(pos[0].y)+'" x2="'+x(pos[1].x)+'" y2="'+y(pos[1].y)+'" stroke="'+color+'" stroke-width="'+(j===i?2.6:1.5)+'" opacity="'+opacity+'" marker-end="url(#arrow)"/>';
-    const p=pos[0];s+='<circle cx="'+x(p.x)+'" cy="'+y(p.y)+'" r="'+(j===i?7:4)+'" fill="'+color+'" opacity="'+opacity+'"/>';
+    const geometry=actionGeometry(a),color=a.arsenal?RED:INK,opacity=j===i?1:.18;
+    const p=geometry.origin;if(!p)return;
+    if(geometry.end){
+      const end=geometry.end;
+      s+='<line class="'+(geometry.isGoal?'goal-direction':'pass-direction')+'" data-event="'+a.id+'" x1="'+x(p.x)+'" y1="'+y(p.y)+'" x2="'+x(end.x)+'" y2="'+y(end.y)+'" stroke="'+color+'" stroke-width="'+(j===i?2.6:1.5)+'" opacity="'+opacity+'"'+(geometry.isGoal?' stroke-dasharray="5 4"':'')+' marker-end="url(#arrow)"/>';
+      if(geometry.isGoal&&j===i)s+='<circle class="goal-ball" cx="'+x(end.x)+'" cy="'+y(end.y)+'" r="4" fill="white" stroke="'+color+'" stroke-width="2"><animate attributeName="cx" from="'+x(p.x)+'" to="'+x(end.x)+'" dur="0.6s" fill="freeze"/><animate attributeName="cy" from="'+y(p.y)+'" to="'+y(end.y)+'" dur="0.6s" fill="freeze"/></circle>';
+    }
+    s+='<circle class="action-origin" cx="'+x(p.x)+'" cy="'+y(p.y)+'" r="'+(j===i?7:4)+'" fill="'+color+'" opacity="'+opacity+'"/>';
+    if(geometry.isShot)s+='<circle class="shot-origin" data-event="'+a.id+'" cx="'+x(p.x)+'" cy="'+y(p.y)+'" r="'+(j===i?12:7)+'" fill="none" stroke="'+color+'" stroke-width="2" opacity="'+opacity+'"/>';
     if(j===i)s+='<text x="'+(x(p.x)+(p.x>65?-10:10))+'" y="'+Math.max(25,y(p.y)-12)+'" text-anchor="'+(p.x>65?'end':'start')+'" fill="'+color+'" font-size="12" font-family="Arial">'+escape(a.player||translated[a.type]||a.type)+'</text>';
   });
+  const lastShot=actions.slice(0,i+1).findLast(a=>actionGeometry(a).isShot);
+  if(lastShot?.goal)s+='<text class="goal-caption" x="362" y="39" text-anchor="middle" fill="'+(lastShot.arsenal?RED:INK)+'" font-family="Arial" font-size="17" font-weight="bold">'+(lastShot.arsenal?'ГОЛ ARSENAL':'ГОЛ СОПЕРНИКА')+' · '+escape(lastShot.player||'')+'</text>';
+  else if(lastShot&&actionGeometry(actions[i]).isShot)s+='<text class="shot-caption" x="362" y="39" text-anchor="middle" fill="'+INK+'" font-family="Arial" font-size="15">УДАР БЕЗ ГОЛА</text>';
   $('pitch-container').innerHTML=svg(s,724,500,'Реальные события выбранного эпизода');
   const a=actions[i];$('frame-label').textContent=(i+1)+' / '+actions.length;
-  $('action-details').textContent=clock(selectedEpisode.period,a.second)+' · '+(a.arsenal?'Arsenal':'Соперник')+' · '+(a.player||'игрок не указан')+' · '+(translated[a.type]||a.type)+' · event '+a.id;
+  const geometry=actionGeometry(a);
+  $('action-details').textContent=clock(selectedEpisode.period,a.second)+' · '+(a.arsenal?'Arsenal':'Соперник')+' · '+(a.player||'игрок не указан')+' · '+(geometry.isGoal?'Удар — ГОЛ':geometry.isShot?'Удар без гола':translated[a.type]||a.type)+' · event '+a.id;
+  $('shot-explanation').textContent=lastShot?.goal?'Пунктир и движение мяча — условное направление к центру ворот. Это схема гола, не измеренная траектория и не точная точка попадания.':geometry.isShot?'Кольцом отмечена точка удара. Направление полёта не показано: вторая координата удара в исходнике служебная.':a.type==='Save attempt'?'Действие вратаря сохранено в последовательности. Служебные координаты этого события на поле не отображаются.':'Сплошные стрелки — зарегистрированные передачи. Дуэли и другие действия показаны точками, без выдуманной траектории мяча.';
 }
 function recommendations() {
   $('recommendation-list').innerHTML=data.recommendations.map((r,i)=>'<article class="recommendation"><span class="index">0'+(i+1)+'</span><div><span class="label">'+escape(r.support)+'</span><h3>'+escape(r.title)+'</h3><p class="evidence">'+escape(r.evidence)+'</p><p>'+escape(r.caution)+'</p></div><div><h4>Что проверить</h4><p>'+escape(r.action)+'</p><h4>Как оценить результат</h4><p>'+escape(r.test)+'</p></div></article>').join('');
