@@ -1,4 +1,4 @@
-import {filterEpisodes,riskSummary,number as fmt,clock,actionGeometry} from './lab-utils.js';
+import {filterEpisodes,riskSummary,number as fmt,clock,actionGeometry} from './lab-utils.js?v=shots-2';
 const $=id=>document.getElementById(id);
 let data,selectedEpisode=null,filteredEpisodes=[],listLimit=60,timer=null;
 const INK='#17212b',RED='#c52235',GRAY='#98a3ac';

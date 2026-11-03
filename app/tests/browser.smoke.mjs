@@ -91,11 +91,25 @@ try{
   assert.equal(await page.locator('#pitch-container .goal-direction').last().getAttribute('x2'),'712');
   assert.match(await page.locator('#shot-explanation').textContent(),/условное/);
   assert.match(await page.locator('#pitch-container .goal-caption').textContent(),/ГОЛ ARSENAL/);
+  assert.equal(await page.locator('#animation-version').textContent(),'Анимация v2');
   await page.waitForTimeout(700);
   await page.setViewportSize({width:1440,height:1800});
   await page.locator('.episode-view').screenshot({path:path.join(ROOT,'output/app-goal.png')});
   await page.setViewportSize({width:1440,height:1100});
   await page.screenshot({path:path.join(ROOT,'output/app-episodes.png'),fullPage:true});
+  // The user's second report concerns Lacazette's opening goal, not Welbeck.
+  await page.locator('.episode-item').filter({hasText:'177959212'}).click();
+  await page.locator('#frame').evaluate(input=>{
+    input.value=input.max;input.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  assert.equal(await page.locator('#pitch-container .goal-direction[data-event="177959212"]').getAttribute('x2'),'712');
+  assert.equal(await page.locator('#pitch-container .goal-direction[data-event="177959212"]').getAttribute('y2'),'239');
+  assert.equal(await page.locator('#pitch-container line[x2="12"][y2="12"]').count(),0);
+  assert.match(await page.locator('#pitch-container .goal-caption').textContent(),/ГОЛ ARSENAL.*Lacazette/);
+  await page.waitForTimeout(700);
+  await page.setViewportSize({width:1440,height:1800});
+  await page.locator('.episode-view').screenshot({path:path.join(ROOT,'output/app-lacazette-goal.png')});
+  await page.setViewportSize({width:1440,height:1100});
   await page.selectOption('#episode-hit','no');
   await page.locator('.episode-item').first().click();
   await page.locator('#frame').evaluate(input=>{
@@ -153,7 +167,7 @@ try{
   assert.deepEqual(external,[]);
   const report={passed:true,browser:'Chromium',external_requests:external.length,
     javascript_errors:errors,checks:['47/16','19 opponents','context filters','shot episodes',
-      'playback','shot placeholders ignored','Welbeck goal right','Vardy goal left',
+      'playback','shot placeholders ignored','Welbeck goal right','Lacazette goal right','animation v2 marker','Vardy goal left',
       'non-goal shot origin only','delivery keeper duplicate not a second goal',
       'empty result','10/15/20 windows','recommendations','390px layout','390px goal layout'],
     network_policy:'all non-loopback requests blocked'};

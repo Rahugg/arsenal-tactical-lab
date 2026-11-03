@@ -13,11 +13,19 @@
     "Vardy after loss 177959768: schematic left goal",
     "Non-goal shot: origin ring only",
     "Ozil delivery 216905500: goalkeeper tag does not create another goal",
-    "390px goal view: no horizontal overflow"
+    "390px goal view: no horizontal overflow",
+    "Lacazette goal 177959212 at 01:34: schematic right goal, no arrow to 0,0"
   ],
   "statistical_exports_changed": false,
   "goal_direction_is_schematic": true,
   "shot_endpoint_is_measured": false,
-  "visual_inspection": "output/app-goal.png inspected",
-  "limitations": "No tracking or measured ball trajectory. Goal centre is a labelled diagram, not an inferred impact location."
+  "visual_inspection": "output/app-goal.png and output/app-lacazette-goal.png inspected",
+  "limitations": "No tracking or measured ball trajectory. Goal centre is a labelled diagram, not an inferred impact location.",
+  "cache_checks": {
+    "http_files_match_local": true,
+    "versioned_app_and_dependency": true,
+    "visible_marker": "Анимация v2",
+    "new_launcher_cache_control": "no-store",
+    "existing_server_not_restarted": true
+  }
 }
